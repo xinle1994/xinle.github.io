@@ -199,7 +199,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/08/22/test11/">
+    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/08/23/LeetCode-5496-%E4%BD%A0%E5%8F%AF%E4%BB%A5%E8%8E%B7%E5%BE%97%E7%9A%84%E6%9C%80%E5%A4%A7%E7%A1%AC%E5%B8%81%E6%95%B0%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/github_photo.jpg">
@@ -213,7 +213,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/08/22/test11/" class="post-title-link" itemprop="url">test11</a>
+            <a href="/2020/08/23/LeetCode-5496-%E4%BD%A0%E5%8F%AF%E4%BB%A5%E8%8E%B7%E5%BE%97%E7%9A%84%E6%9C%80%E5%A4%A7%E7%A1%AC%E5%B8%81%E6%95%B0%E7%9B%AE/" class="post-title-link" itemprop="url">LeetCode-5496-你可以获得的最大硬币数目</a>
         </h2>
 
         <div class="post-meta">
@@ -224,7 +224,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-22 17:25:09 / Modified: 17:25:32" itemprop="dateCreated datePublished" datetime="2020-08-22T17:25:09+08:00">2020-08-22</time>
+              <time title="Created: 2020-08-23 20:19:55 / Modified: 20:25:19" itemprop="dateCreated datePublished" datetime="2020-08-23T20:19:55+08:00">2020-08-23</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,7 +232,11 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/test-cat/" itemprop="url" rel="index"><span itemprop="name">test cat</span></a>
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">贪心算法</span></a>
                 </span>
             </span>
 
@@ -242,7 +246,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>9</span>
+              <span>414</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -261,7 +265,91 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>asdasdasd</p>
+          <h4 id="5496-你可以获得的最大硬币数目"><a href="#5496-你可以获得的最大硬币数目" class="headerlink" title="5496. 你可以获得的最大硬币数目"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-number-of-coins-you-can-get/">5496. 你可以获得的最大硬币数目</a></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 你可以获得的最大硬币数目<span class="title">_5496</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 贪心算法</span></span><br><span class="line"><span class="comment">     * 先排序，再将当前最小的和最大的分给其他两人，自己保留次大的数，排除当前三个数后再依次执行</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> piles</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxCoins</span><span class="params">(<span class="keyword">int</span>[] piles)</span> </span>&#123;</span><br><span class="line">        Arrays.sort(piles);</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> begin = piles.length / <span class="number">3</span>;</span><br><span class="line">        <span class="comment">//简化版： 先将最小的 N/3 个分出去，再从0开始第(N/3)个遍历累加，每次index+=2;</span></span><br><span class="line">        <span class="keyword">for</span> (; begin &lt; piles.length; begin += <span class="number">2</span>) &#123;</span><br><span class="line">            result += piles[begin];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/08/23/LeetCode-5495-%E5%9C%86%E5%BD%A2%E8%B5%9B%E9%81%93%E4%B8%8A%E7%BB%8F%E8%BF%87%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84%E6%89%87%E5%8C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/github_photo.jpg">
+      <meta itemprop="name" content="xinle">
+      <meta itemprop="description" content="热爱生活，热爱技术">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinle's BLOG">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/23/LeetCode-5495-%E5%9C%86%E5%BD%A2%E8%B5%9B%E9%81%93%E4%B8%8A%E7%BB%8F%E8%BF%87%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84%E6%89%87%E5%8C%BA/" class="post-title-link" itemprop="url">LeetCode-5495-圆形赛道上经过次数最多的扇区</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-23 20:11:40 / Modified: 20:18:58" itemprop="dateCreated datePublished" datetime="2020-08-23T20:11:40+08:00">2020-08-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>671</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="5495-圆形赛道上经过次数最多的扇区"><a href="#5495-圆形赛道上经过次数最多的扇区" class="headerlink" title="5495. 圆形赛道上经过次数最多的扇区"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/most-visited-sector-in-a-circular-track/">5495. 圆形赛道上经过次数最多的扇区</a></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 1、使用N的数组保存，模拟计数</span></span><br><span class="line"><span class="comment">     * 2、简化问题：</span></span><br><span class="line"><span class="comment">     * （1）当数组的第一位 和 最后一位是相同的，则表明，中间跑了完整的 M 圈，</span></span><br><span class="line"><span class="comment">     * 由于是起始位置，那么就会相对于其他分段 就会多跑一次，所以返回起始阶段</span></span><br><span class="line"><span class="comment">     * （2）如果，起始点和结束点不一致，则分为两种情况，结束点 大于 起始点，则直接保存即可</span></span><br><span class="line"><span class="comment">     * 结束点 小于 起始点，表明跨越了最大分段，需要再从1加到结束点</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> n</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> rounds</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">mostVisited</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span>[] rounds)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">int</span> begin = rounds[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> end = rounds[rounds.length - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (begin == end) &#123;</span><br><span class="line">            result.add(begin);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (begin != end) &#123;</span><br><span class="line">                result.add(begin);</span><br><span class="line">                begin++;</span><br><span class="line">                <span class="keyword">if</span> (begin &gt; n) &#123;</span><br><span class="line">                    begin -= n;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            result.add(end);</span><br><span class="line">        &#125;</span><br><span class="line">        Collections.sort(result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -517,20 +605,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -590,12 +678,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">3k</span>
+    <span title="Symbols count total">4k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">3 mins.</span>
+    <span title="Reading time total">4 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
