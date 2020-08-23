@@ -31,7 +31,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="d:/WorkSpace/blog/source_posts/5.jpg">
 <meta property="article:published_time" content="2020-08-22T07:57:19.000Z">
-<meta property="article:modified_time" content="2020-08-22T13:36:17.043Z">
+<meta property="article:modified_time" content="2020-08-23T14:52:31.980Z">
 <meta property="article:author" content="xinle">
 <meta property="article:tag" content="搭建博客">
 <meta name="twitter:card" content="summary">
@@ -143,6 +143,26 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
+        <li class="menu-item menu-item-leetcode">
+
+    <a href="/LeetCode/" rel="section"><i class="fa fa-code fa-fw"></i>LeetCode</a>
+
+  </li>
+        <li class="menu-item menu-item-java">
+
+    <a href="/Java/" rel="section"><i class="fa fa-backward fa-fw"></i>Java</a>
+
+  </li>
+        <li class="menu-item menu-item-后端">
+
+    <a href="/%E5%90%8E%E7%AB%AF/" rel="section"><i class="fa fa-tags fa-fw"></i>后端</a>
+
+  </li>
+        <li class="menu-item menu-item-database">
+
+    <a href="/DataBase/" rel="section"><i class="fa fa-database fa-fw"></i>DataBase</a>
+
+  </li>
         <li class="menu-item menu-item-sitemap">
 
     <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
@@ -227,10 +247,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-08-22 15:57:19 / Modified: 21:36:17" itemprop="dateCreated datePublished" datetime="2020-08-22T15:57:19+08:00">2020-08-22</time>
+              <time title="Created: 2020-08-22 15:57:19" itemprop="dateCreated datePublished" datetime="2020-08-22T15:57:19+08:00">2020-08-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-23 22:52:31" itemprop="dateModified" datetime="2020-08-23T22:52:31+08:00">2020-08-23</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -245,7 +271,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.9k</span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -302,7 +328,7 @@
 <h1 id="备份博客源文件"><a href="#备份博客源文件" class="headerlink" title="备份博客源文件"></a>备份博客源文件</h1><p>有时候我们想换一台电脑继续写博客，这时候就可以将博客目录下的所有源文件都上传到github上面。</p>
 <p>首先在github博客仓库下新建一个分支<code>hexo</code>，然后<code>git clone</code>到本地，把<code>.git</code>文件夹拿出来，放在博客根目录下。</p>
 <p>然后<code>git checkout hexo</code>切换到<code>hexo</code>分支，然后<code>git add .</code>，然后<code>git commit -m &quot;xxx&quot;</code>，最后<code>git push origin hexo</code>提交就行了。</p>
-<p>当然我新建了一个仓库存放了源文件，具体效果可以看我的博客源文件仓库：<a target="_blank" rel="noopener" href="https://github.com/godweiyang/hexo-matery-modified%E3%80%82%E5%A4%A7%E5%AE%B6%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%85%88%E7%94%A8%E4%B8%8B%E6%96%87hexo%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E5%AE%89%E8%A3%85%E5%AE%8Chexo%EF%BC%8C%E7%84%B6%E5%90%8E%E7%9B%B4%E6%8E%A5%60git">https://github.com/godweiyang/hexo-matery-modified。大家也可以先用下文hexo安装方法安装完hexo，然后直接`git</a> clone <a href="mailto:&#103;&#105;&#116;&#x40;&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#46;&#x63;&#x6f;&#109;">&#103;&#105;&#116;&#x40;&#103;&#x69;&#x74;&#104;&#x75;&#x62;&#46;&#x63;&#x6f;&#109;</a>:godweiyang/hexo-matery-modified.git`克隆我的所有源文件，然后这是我修改完的基本没bug的定制化的博客，就可以直接拿来用啦。</p>
+<p>当然我新建了一个仓库存放了源文件，具体效果可以看我的博客源文件仓库：<a target="_blank" rel="noopener" href="https://github.com/godweiyang/hexo-matery-modified%E3%80%82%E5%A4%A7%E5%AE%B6%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%85%88%E7%94%A8%E4%B8%8B%E6%96%87hexo%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E5%AE%89%E8%A3%85%E5%AE%8Chexo%EF%BC%8C%E7%84%B6%E5%90%8E%E7%9B%B4%E6%8E%A5%60git">https://github.com/godweiyang/hexo-matery-modified。大家也可以先用下文hexo安装方法安装完hexo，然后直接`git</a> clone <a href="mailto:&#103;&#105;&#116;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#x6f;&#109;">&#103;&#105;&#116;&#x40;&#103;&#x69;&#116;&#x68;&#117;&#98;&#46;&#x63;&#x6f;&#109;</a>:godweiyang/hexo-matery-modified.git`克隆我的所有源文件，然后这是我修改完的基本没bug的定制化的博客，就可以直接拿来用啦。</p>
 <p><strong>我这个源文件和原来的主题没有什么区别，只是我把插件都安装完了，有些小bug也修复了，所以拿来就能直接用，方便大家。</strong></p>
 <h1 id="博客源代码下载"><a href="#博客源代码下载" class="headerlink" title="博客源代码下载"></a>博客源代码下载</h1><p>如果大家不想这么麻烦的装一堆东西，然后还要自己修改bug，那么只需要做好上面的准备工作，然后下载我的源代码，改改个人配置就行了。</p>
 <p>源码地址：<a target="_blank" rel="noopener" href="https://github.com/godweiyang/hexo-matery-modified%E3%80%82%E5%A4%A7%E5%AE%B6%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E4%B8%8B%E8%BD%BD%E4%B8%8B%E6%9D%A5%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%BF%AE%E6%94%B9%E4%B8%AA%E4%BA%BA%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E5%8D%B3%E5%8F%AF%EF%BC%8C%E5%BD%93%E7%84%B6%E7%8E%AF%E5%A2%83%E8%A6%81%E5%85%88%E6%90%AD%E5%A5%BD%E3%80%82">https://github.com/godweiyang/hexo-matery-modified。大家可以直接下载下来使用，修改个人配置信息即可，当然环境要先搭好。</a></p>
@@ -312,6 +338,15 @@
 <p>主题的原地址在这里：<a target="_blank" rel="noopener" href="https://github.com/blinkfox/hexo-theme-matery">hexo-theme-matery</a>，它的文档写得也非常的详细，还有中英文两个版本，作者回复也很及时。效果图如下，可以看出非常合我的口味：</p>
 <h2 id="文章开启阅读更多按钮"><a href="#文章开启阅读更多按钮" class="headerlink" title="文章开启阅读更多按钮"></a>文章开启阅读更多按钮</h2><p>如果不开启阅读更多按钮的话，默认是展示文章中所有内容的，这显然体验不好。</p>
 <p>一般都会在文章中插入<code>&lt;!--more--&gt;</code>这种注释形式表示首页展示到注释处为止。</p>
+<h2 id="新建左侧分类栏"><a href="#新建左侧分类栏" class="headerlink" title="新建左侧分类栏"></a>新建左侧分类栏</h2><p>修改 theme中的配置，如</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-home</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/about/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-user</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-tags</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-th</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-archive</span></span><br><span class="line">  <span class="comment">#schedule: /schedule/ || fa fa-calendar</span></span><br><span class="line">  <span class="attr">LeetCode:</span> <span class="string">/LeetCode/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-code</span></span><br><span class="line">  <span class="attr">Java:</span> <span class="string">/Java/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-backward</span></span><br><span class="line">  <span class="string">后端:</span> <span class="string">/后端/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-tags</span></span><br><span class="line">  <span class="attr">DataBase:</span> <span class="string">/DataBase/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-database</span></span><br><span class="line">  <span class="attr">sitemap:</span> <span class="string">/sitemap.xml</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-sitemap</span></span><br><span class="line">  <span class="comment">#commonweal: /404/ || fa fa-heartbeat</span></span><br></pre></td></tr></table></figure>
+
+<p>操作命令行</p>
+<p> hexo new page “LeetCode”</p>
+<p>修改source文件夹中对应的index.md文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">title: tags</span><br><span class="line">date: 2020-08-22 22:35:39</span><br><span class="line">type: &quot;tags&quot;</span><br></pre></td></tr></table></figure>
+
+<p>修改blog\scaffolds 下的默认md文件头信息</p>
 
     </div>
 
@@ -407,7 +442,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Node-js"><span class="nav-number">1.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90"><span class="nav-number">2.</span> <span class="nav-text">添加国内镜像源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Git"><span class="nav-number">3.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E5%86%8CGithub%E8%B4%A6%E5%8F%B7"><span class="nav-number">4.</span> <span class="nav-text">注册Github账号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Hexo"><span class="nav-number">5.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Hexo-1"><span class="nav-number">6.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E6%96%87%E7%AB%A0%E3%80%81%E5%8F%91%E5%B8%83%E6%96%87%E7%AB%A0"><span class="nav-number">7.</span> <span class="nav-text">写文章、发布文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D"><span class="nav-number">8.</span> <span class="nav-text">绑定域名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E5%8D%9A%E5%AE%A2%E6%BA%90%E6%96%87%E4%BB%B6"><span class="nav-number">9.</span> <span class="nav-text">备份博客源文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%9A%E5%AE%A2%E6%BA%90%E4%BB%A3%E7%A0%81%E4%B8%8B%E8%BD%BD"><span class="nav-number">10.</span> <span class="nav-text">博客源代码下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96%E8%AE%BE%E7%BD%AE%EF%BC%88matery%E4%B8%BB%E9%A2%98%EF%BC%89"><span class="nav-number">11.</span> <span class="nav-text">个性化设置（matery主题）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98"><span class="nav-number">11.1.</span> <span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E5%BC%80%E5%90%AF%E9%98%85%E8%AF%BB%E6%9B%B4%E5%A4%9A%E6%8C%89%E9%92%AE"><span class="nav-number">11.2.</span> <span class="nav-text">文章开启阅读更多按钮</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Node-js"><span class="nav-number">1.</span> <span class="nav-text">安装Node.js</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90"><span class="nav-number">2.</span> <span class="nav-text">添加国内镜像源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Git"><span class="nav-number">3.</span> <span class="nav-text">安装Git</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B3%A8%E5%86%8CGithub%E8%B4%A6%E5%8F%B7"><span class="nav-number">4.</span> <span class="nav-text">注册Github账号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Hexo"><span class="nav-number">5.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Hexo-1"><span class="nav-number">6.</span> <span class="nav-text">安装Hexo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%99%E6%96%87%E7%AB%A0%E3%80%81%E5%8F%91%E5%B8%83%E6%96%87%E7%AB%A0"><span class="nav-number">7.</span> <span class="nav-text">写文章、发布文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D"><span class="nav-number">8.</span> <span class="nav-text">绑定域名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E5%8D%9A%E5%AE%A2%E6%BA%90%E6%96%87%E4%BB%B6"><span class="nav-number">9.</span> <span class="nav-text">备份博客源文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%9A%E5%AE%A2%E6%BA%90%E4%BB%A3%E7%A0%81%E4%B8%8B%E8%BD%BD"><span class="nav-number">10.</span> <span class="nav-text">博客源代码下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AA%E6%80%A7%E5%8C%96%E8%AE%BE%E7%BD%AE%EF%BC%88matery%E4%B8%BB%E9%A2%98%EF%BC%89"><span class="nav-number">11.</span> <span class="nav-text">个性化设置（matery主题）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%8D%A2%E4%B8%BB%E9%A2%98"><span class="nav-number">11.1.</span> <span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E5%BC%80%E5%90%AF%E9%98%85%E8%AF%BB%E6%9B%B4%E5%A4%9A%E6%8C%89%E9%92%AE"><span class="nav-number">11.2.</span> <span class="nav-text">文章开启阅读更多按钮</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E5%B7%A6%E4%BE%A7%E5%88%86%E7%B1%BB%E6%A0%8F"><span class="nav-number">11.3.</span> <span class="nav-text">新建左侧分类栏</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -496,7 +531,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">6k</span>
+    <span title="Symbols count total">7k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
