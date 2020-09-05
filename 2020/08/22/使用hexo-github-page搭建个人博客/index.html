@@ -29,13 +29,13 @@
 <meta property="og:site_name" content="xinle&#39;s BLOG">
 <meta property="og:description" content="安装Node.js首先下载稳定版Node.js，我这里给的是64位的。 安装选项全部默认，一路点击Next。 最后安装好之后，按Win+R打开命令提示符，输入node -v和npm -v，如果出现版本号，那么就安装成功了。 添加国内镜像源如果没有梯子的话，可以使用阿里的国内镜像进行加速。 1npm config set registry https:&#x2F;&#x2F;registry.npm.taobao.or">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="d:/WorkSpace/blog/source_posts/5.jpg">
+<meta property="og:image" content="http://xinlecloud.top/2020/08/22/%E4%BD%BF%E7%94%A8hexo-github-page%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/WorkSpace/blog/source_posts/5.jpg">
 <meta property="article:published_time" content="2020-08-22T07:57:19.000Z">
 <meta property="article:modified_time" content="2020-08-23T14:52:31.980Z">
 <meta property="article:author" content="xinle">
 <meta property="article:tag" content="搭建博客">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="d:/WorkSpace/blog/source_posts/5.jpg">
+<meta name="twitter:image" content="http://xinlecloud.top/2020/08/22/%E4%BD%BF%E7%94%A8hexo-github-page%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/WorkSpace/blog/source_posts/5.jpg">
 
 <link rel="canonical" href="http://xinlecloud.top/2020/08/22/%E4%BD%BF%E7%94%A8hexo-github-page%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
 
@@ -316,7 +316,7 @@
 <p>安装完后输入<code>hexo -v</code>验证是否安装成功。</p>
 <p>然后就要初始化我们的网站，输入<code>hexo init</code>初始化文件夹，接着输入<code>npm install</code>安装必备的组件。</p>
 <p>这样本地的网站配置也弄好啦，输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>打开本地服务器，然后浏览器打开<a target="_blank" rel="noopener" href="http://localhost:4000/%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E6%88%91%E4%BB%AC%E7%9A%84%E5%8D%9A%E5%AE%A2%E5%95%A6%EF%BC%8C%E6%95%88%E6%9E%9C%E5%A6%82%E4%B8%8B%EF%BC%9A">http://localhost:4000/，就可以看到我们的博客啦，效果如下：</a></p>
-<p><img src="D:\WorkSpace\blog\source_posts\5.jpg" alt="img"></p>
+<p><img src="/2020/08/22/%E4%BD%BF%E7%94%A8hexo-github-page%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/WorkSpace\blog\source_posts\5.jpg" alt="img"></p>
 <h1 id="写文章、发布文章"><a href="#写文章、发布文章" class="headerlink" title="写文章、发布文章"></a>写文章、发布文章</h1><p>首先在博客根目录下右键打开git bash，安装一个扩展<code>npm i hexo-deployer-git</code>。</p>
 <p>然后输入<code>hexo new post &quot;article title&quot;</code>，新建一篇文章。</p>
 <p>然后打开<code>D:\study\program\blog\source\_posts</code>的目录，可以发现下面多了一个文件夹和一个<code>.md</code>文件，一个用来存放你的图片等数据，另一个就是你的文章文件啦。</p>
@@ -328,7 +328,7 @@
 <h1 id="备份博客源文件"><a href="#备份博客源文件" class="headerlink" title="备份博客源文件"></a>备份博客源文件</h1><p>有时候我们想换一台电脑继续写博客，这时候就可以将博客目录下的所有源文件都上传到github上面。</p>
 <p>首先在github博客仓库下新建一个分支<code>hexo</code>，然后<code>git clone</code>到本地，把<code>.git</code>文件夹拿出来，放在博客根目录下。</p>
 <p>然后<code>git checkout hexo</code>切换到<code>hexo</code>分支，然后<code>git add .</code>，然后<code>git commit -m &quot;xxx&quot;</code>，最后<code>git push origin hexo</code>提交就行了。</p>
-<p>当然我新建了一个仓库存放了源文件，具体效果可以看我的博客源文件仓库：<a target="_blank" rel="noopener" href="https://github.com/godweiyang/hexo-matery-modified%E3%80%82%E5%A4%A7%E5%AE%B6%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%85%88%E7%94%A8%E4%B8%8B%E6%96%87hexo%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E5%AE%89%E8%A3%85%E5%AE%8Chexo%EF%BC%8C%E7%84%B6%E5%90%8E%E7%9B%B4%E6%8E%A5%60git">https://github.com/godweiyang/hexo-matery-modified。大家也可以先用下文hexo安装方法安装完hexo，然后直接`git</a> clone <a href="mailto:&#103;&#105;&#x74;&#x40;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#x2e;&#x63;&#x6f;&#x6d;">&#103;&#105;&#x74;&#x40;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#x2e;&#x63;&#x6f;&#x6d;</a>:godweiyang/hexo-matery-modified.git`克隆我的所有源文件，然后这是我修改完的基本没bug的定制化的博客，就可以直接拿来用啦。</p>
+<p>当然我新建了一个仓库存放了源文件，具体效果可以看我的博客源文件仓库：<a target="_blank" rel="noopener" href="https://github.com/godweiyang/hexo-matery-modified%E3%80%82%E5%A4%A7%E5%AE%B6%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%85%88%E7%94%A8%E4%B8%8B%E6%96%87hexo%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95%E5%AE%89%E8%A3%85%E5%AE%8Chexo%EF%BC%8C%E7%84%B6%E5%90%8E%E7%9B%B4%E6%8E%A5%60git">https://github.com/godweiyang/hexo-matery-modified。大家也可以先用下文hexo安装方法安装完hexo，然后直接`git</a> clone <a href="mailto:&#x67;&#105;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#109;">&#x67;&#105;&#116;&#64;&#x67;&#x69;&#116;&#x68;&#117;&#x62;&#x2e;&#x63;&#111;&#109;</a>:godweiyang/hexo-matery-modified.git`克隆我的所有源文件，然后这是我修改完的基本没bug的定制化的博客，就可以直接拿来用啦。</p>
 <p><strong>我这个源文件和原来的主题没有什么区别，只是我把插件都安装完了，有些小bug也修复了，所以拿来就能直接用，方便大家。</strong></p>
 <h1 id="博客源代码下载"><a href="#博客源代码下载" class="headerlink" title="博客源代码下载"></a>博客源代码下载</h1><p>如果大家不想这么麻烦的装一堆东西，然后还要自己修改bug，那么只需要做好上面的准备工作，然后下载我的源代码，改改个人配置就行了。</p>
 <p>源码地址：<a target="_blank" rel="noopener" href="https://github.com/godweiyang/hexo-matery-modified%E3%80%82%E5%A4%A7%E5%AE%B6%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E4%B8%8B%E8%BD%BD%E4%B8%8B%E6%9D%A5%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%BF%AE%E6%94%B9%E4%B8%AA%E4%BA%BA%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E5%8D%B3%E5%8F%AF%EF%BC%8C%E5%BD%93%E7%84%B6%E7%8E%AF%E5%A2%83%E8%A6%81%E5%85%88%E6%90%AD%E5%A5%BD%E3%80%82">https://github.com/godweiyang/hexo-matery-modified。大家可以直接下载下来使用，修改个人配置信息即可，当然环境要先搭好。</a></p>
@@ -531,7 +531,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">26k</span>
+    <span title="Symbols count total">27k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
