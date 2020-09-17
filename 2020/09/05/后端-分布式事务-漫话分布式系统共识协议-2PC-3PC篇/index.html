@@ -22,25 +22,20 @@
     var CONFIG = {"hostname":"xinlecloud.top","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="分布式事务的实现主要有以下 5 种方案： XA 方案  TCC 方案  本地消息表  可靠消息最终一致性方案  最大努力通知方案">
+  <meta name="description" content="热爱生活，热爱技术">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式事务的常见几种方案">
-<meta property="og:url" content="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:title" content="后端-分布式事务-漫话分布式系统共识协议: 2PC&#x2F;3PC篇">
+<meta property="og:url" content="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E6%BC%AB%E8%AF%9D%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%85%B1%E8%AF%86%E5%8D%8F%E8%AE%AE-2PC-3PC%E7%AF%87/index.html">
 <meta property="og:site_name" content="xinle&#39;s BLOG">
-<meta property="og:description" content="分布式事务的实现主要有以下 5 种方案： XA 方案  TCC 方案  本地消息表  可靠消息最终一致性方案  最大努力通知方案">
+<meta property="og:description" content="热爱生活，热爱技术">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/XA%E5%8D%8F%E8%AE%AE.jpg">
-<meta property="og:image" content="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/TCC.jpg">
-<meta property="og:image" content="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/本地消息表.jpg">
-<meta property="og:image" content="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/可靠消息服务.jpg">
-<meta property="article:published_time" content="2020-09-05T08:11:00.000Z">
-<meta property="article:modified_time" content="2020-09-05T08:19:16.600Z">
+<meta property="article:published_time" content="2020-09-05T08:28:11.000Z">
+<meta property="article:modified_time" content="2020-09-05T08:28:52.166Z">
 <meta property="article:author" content="xinle">
 <meta property="article:tag" content="分布式事务">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/XA%E5%8D%8F%E8%AE%AE.jpg">
 
-<link rel="canonical" href="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/">
+<link rel="canonical" href="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E6%BC%AB%E8%AF%9D%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%85%B1%E8%AF%86%E5%8D%8F%E8%AE%AE-2PC-3PC%E7%AF%87/">
 
 
 <script id="page-configurations">
@@ -53,7 +48,7 @@
   };
 </script>
 
-  <title>分布式事务的常见几种方案 | xinle's BLOG</title>
+  <title>后端-分布式事务-漫话分布式系统共识协议: 2PC/3PC篇 | xinle's BLOG</title>
   
 
 
@@ -228,7 +223,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/">
+    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E6%BC%AB%E8%AF%9D%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%85%B1%E8%AF%86%E5%8D%8F%E8%AE%AE-2PC-3PC%E7%AF%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/github_photo.jpg">
@@ -241,7 +236,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          分布式事务的常见几种方案
+          后端-分布式事务-漫话分布式系统共识协议: 2PC/3PC篇
         </h1>
 
         <div class="post-meta">
@@ -252,7 +247,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-09-05 16:11:00 / Modified: 16:19:16" itemprop="dateCreated datePublished" datetime="2020-09-05T16:11:00+08:00">2020-09-05</time>
+              <time title="Created: 2020-09-05 16:28:11 / Modified: 16:28:52" itemprop="dateCreated datePublished" datetime="2020-09-05T16:28:11+08:00">2020-09-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,14 +276,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.1k</span>
+              <span>0</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
+              <span>1 mins.</span>
             </span>
 
         </div>
@@ -300,63 +295,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="分布式事务的实现主要有以下-5-种方案："><a href="#分布式事务的实现主要有以下-5-种方案：" class="headerlink" title="分布式事务的实现主要有以下 5 种方案："></a>分布式事务的实现主要有以下 5 种方案：</h2><ul>
-<li><p>XA 方案</p>
-</li>
-<li><p>TCC 方案</p>
-</li>
-<li><p>本地消息表</p>
-</li>
-<li><p>可靠消息最终一致性方案</p>
-</li>
-<li><p>最大努力通知方案</p>
-<a id="more"></a>
-
-</li>
-</ul>
-<h2 id="1、两阶段提交方案-XA方案"><a href="#1、两阶段提交方案-XA方案" class="headerlink" title="1、两阶段提交方案/XA方案"></a>1、两阶段提交方案/XA方案</h2><p>所谓的 XA 方案，即：两阶段提交，有一个事务管理器的概念，负责协调多个数据库（资源管理器）的事务，事务管理器先问问各个数据库你准备好了吗？如果每个数据库都回复 ok，那么就正式提交事务，在各个数据库上执行操作；如果任何其中一个数据库回答不 ok，那么就回滚事务。</p>
-<p>这种分布式事务方案，比较适合单块应用里，跨多个库的分布式事务，而且因为严重依赖于数据库层面来搞定复杂的事务，效率很低，绝对不适合高并发的场景。如果要玩儿，那么基于 Spring + JTA 就可以搞定，自己随便搜个 demo 看看就知道了。往期：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzIyNDU2ODA4OQ==&mid=2247484532&idx=1&sn=1c243934507d79db4f76de8ed0e5727f&chksm=e80db202df7a3b14fe7077b0fe5ec4de4088ce96a2cde16cbac21214956bd6f2e8f51193ee2b&scene=21#wechat_redirect">一百期面试题汇总</a></p>
-<p>这个方案，我们很少用，一般来说某个系统内部如果出现跨多个库的这么一个操作，是不合规的。我可以给大家介绍一下， 现在微服务，一个大的系统分成几十个甚至几百个服务。一般来说，我们的规定和规范，是要求每个服务只能操作自己对应的一个数据库。</p>
-<p>如果你要操作别的服务对应的库，不允许直连别的服务的库，违反微服务架构的规范，你随便交叉胡乱访问，几百个服务的话，全体乱套，这样的一套服务是没法管理的，没法治理的，可能会出现数据被别人改错，自己的库被别人写挂等情况。</p>
-<p>如果你要操作别人的服务的库，你必须是通过调用别的服务的接口来实现，绝对不允许交叉访问别人的数据库。</p>
-<p><img src="/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/XA%E5%8D%8F%E8%AE%AE.jpg" alt="img"></p>
-<h2 id="2、TCC-方案"><a href="#2、TCC-方案" class="headerlink" title="2、TCC 方案"></a>2、TCC 方案</h2><p>TCC 的全称是：Try、Confirm、Cancel。</p>
-<ul>
-<li>Try 阶段：这个阶段说的是对各个服务的资源做检测以及对资源进行锁定或者预留。</li>
-<li>Confirm 阶段：这个阶段说的是在各个服务中执行实际的操作。</li>
-<li>Cancel 阶段：如果任何一个服务的业务方法执行出错，那么这里就需要进行补偿，就是执行已经执行成功的业务逻辑的回滚操作。（把那些执行成功的回滚）</li>
-</ul>
-<p>这种方案说实话几乎很少人使用，我们用的也比较少，但是也有使用的场景。因为这个事务回滚实际上是严重依赖于你自己写代码来回滚和补偿了，会造成补偿代码巨大，非常之恶心。往期：<a target="_blank" rel="noopener" href="http://mp.weixin.qq.com/s?__biz=MzIyNDU2ODA4OQ==&mid=2247484532&idx=1&sn=1c243934507d79db4f76de8ed0e5727f&chksm=e80db202df7a3b14fe7077b0fe5ec4de4088ce96a2cde16cbac21214956bd6f2e8f51193ee2b&scene=21#wechat_redirect">一百期面试题汇总</a></p>
-<p>比如说我们，一般来说跟钱相关的，跟钱打交道的，支付、交易相关的场景，我们会用 TCC，严格保证分布式事务要么全部成功，要么全部自动回滚，严格保证资金的正确性，保证在资金上不会出现问题。</p>
-<p>而且最好是你的各个业务执行的时间都比较短。</p>
-<p>但是说实话，一般尽量别这么搞，自己手写回滚逻辑，或者是补偿逻辑，实在太恶心了，那个业务代码是很难维护的。</p>
-<p><img src="/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/TCC.jpg" alt="img"></p>
-<h2 id="3、本地消息表"><a href="#3、本地消息表" class="headerlink" title="3、本地消息表"></a>3、本地消息表</h2><p>本地消息表其实是国外的 ebay 搞出来的这么一套思想。</p>
-<p>这个大概意思是这样的：</p>
-<p>1、A 系统在自己本地一个事务里操作同时，插入一条数据到消息表；</p>
-<p>2、接着 A 系统将这个消息发送到 MQ 中去；</p>
-<p>3、B 系统接收到消息之后，在一个事务里，往自己本地消息表里插入一条数据，同时执行其他的业务操作，如果这个消息已经被处理过了，那么此时</p>
-<p>这个事务会回滚，这样保证不会重复处理消息；</p>
-<p>4、B 系统执行成功之后，就会更新自己本地消息表的状态以及 A 系统消息表的状态；</p>
-<p>5、如果 B 系统处理失败了，那么就不会更新消息表状态，那么此时 A 系统会定时扫描自己的消息表，如果有未处理的消息，会再次发送到 MQ 中去，让 B 再次处理；</p>
-<p>6、这个方案保证了最终一致性，哪怕 B 事务失败了，但是 A 会不断重发消息，直到 B 那边成功为止。</p>
-<p>这个方案说实话最大的问题就在于严重依赖于数据库的消息表来管理事务啥的，如果是高并发场景咋办呢？咋扩展呢？所以一般确实很少用。</p>
-<img src="/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/本地消息表.jpg" alt="img" style="zoom:150%;">
-
-<h2 id="4、可靠消息最终一致性方案"><a href="#4、可靠消息最终一致性方案" class="headerlink" title="4、可靠消息最终一致性方案"></a>4、可靠消息最终一致性方案</h2><p>设计思想：将远程分布式事务拆分成一系列的本地事务</p>
-<p>注意点：<br>1、消息的丢失 — 原始消息的存根，加上消息是否消费的状态，加上定时器去扫描，并重新往MQ中生产消息。<br>2、消息的重复消费—消费者保存有已消费消息的存根，全局唯一id，解决幂等性问题</p>
-<p>这个的意思，就是干脆不要用本地的消息表了，直接基于 MQ 来实现事务。比如阿里的 RocketMQ 就支持消息事务。</p>
-<p>大概的意思就是：</p>
-<p>1、A 系统先发送一个 prepared 消息到 mq，如果这个 prepared 消息发送失败那么就直接取消操作别执行了；</p>
-<p>2、如果这个消息发送成功过了，那么接着执行本地事务，如果成功就告诉 mq 发送确认消息，如果失败就告诉 mq 回滚消息；</p>
-<p>3、如果发送了确认消息，那么此时 B 系统会接收到确认消息，然后执行本地的事务；</p>
-<p>4、mq 会自动定时轮询所有 prepared 消息回调你的接口，问你，这个消息是不是本地事务处理失败了，所有没发送确认的消息，是继续重试还是回滚？一般来说这里你就可以查下数据库看之前本地事务是否执行，如果回滚了，那么这里也回滚吧。这个就是避免可能本地事务执行成功了，而确认消息却发送失败了。</p>
-<p>5、这个方案里，要是系统 B 的事务失败了咋办？重试咯，自动不断重试直到成功，如果实在是不行，要么就是针对重要的资金类业务进行回滚，比如 B 系统本地回滚后，想办法通知系统 A 也回滚；或者是发送报警由人工来手工回滚和补偿。</p>
-<p>6、这个还是比较合适的，目前国内互联网公司大都是这么玩儿的，要不你举用 RocketMQ 支持的，要不你就自己基于类似 ActiveMQ？RabbitMQ？自己封装一套类似的逻辑出来，总之思路就是这样子的。</p>
-<img src="/2020/09/05/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B8%B8%E8%A7%81%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88/可靠消息服务.jpg" alt="img" style="zoom:150%;">
-
-<h2 id="5、Seata"><a href="#5、Seata" class="headerlink" title="5、Seata"></a>5、Seata</h2><p>见后文</p>
-
+        
     </div>
 
     
@@ -389,7 +328,10 @@
     <a href="/2020/09/05/LeetCode-51-N%E7%9A%87%E5%90%8E/" rel="prev" title="LeetCode-51-N皇后">
       <i class="fa fa-chevron-left"></i> LeetCode-51-N皇后
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/14/%E5%90%8E%E7%AB%AF-Java%E8%99%9A%E6%8B%9F%E6%9C%BA-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%A0%88%E5%B8%A7%E7%BB%93%E6%9E%84/" rel="next" title="后端-Java虚拟机-运行时栈帧结构">
+      后端-Java虚拟机-运行时栈帧结构 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -448,7 +390,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%B8%BB%E8%A6%81%E6%9C%89%E4%BB%A5%E4%B8%8B-5-%E7%A7%8D%E6%96%B9%E6%A1%88%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">分布式事务的实现主要有以下 5 种方案：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A4%E6%96%B9%E6%A1%88-XA%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">1、两阶段提交方案&#x2F;XA方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81TCC-%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">2、TCC 方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%9C%AC%E5%9C%B0%E6%B6%88%E6%81%AF%E8%A1%A8"><span class="nav-number">4.</span> <span class="nav-text">3、本地消息表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E5%8F%AF%E9%9D%A0%E6%B6%88%E6%81%AF%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%E6%96%B9%E6%A1%88"><span class="nav-number">5.</span> <span class="nav-text">4、可靠消息最终一致性方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81Seata"><span class="nav-number">6.</span> <span class="nav-text">5、Seata</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -464,20 +405,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -537,12 +478,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">27k</span>
+    <span title="Symbols count total">31k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">24 mins.</span>
+    <span title="Reading time total">28 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
