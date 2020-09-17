@@ -219,6 +219,215 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/github_photo.jpg">
+      <meta itemprop="name" content="xinle">
+      <meta itemprop="description" content="热爱生活，热爱技术">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinle's BLOG">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/" class="post-title-link" itemprop="url">数据分片和读写分离</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-09-17 21:44:05 / Modified: 22:20:24" itemprop="dateCreated datePublished" datetime="2020-09-17T21:44:05+08:00">2020-09-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">分布式关系型数据库</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/" itemprop="url" rel="index"><span itemprop="name">数据分片和读写分离</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h1><h2 id="基本架构"><a href="#基本架构" class="headerlink" title="基本架构"></a>基本架构</h2><p>读写分离基于数据的主从复制的架构，数据库写的操作都在主库执行，读取的操作都在从库执行</p>
+<p>架构图如下：</p>
+<p><img src="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/%5C%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%5C1.png" alt="image-20200917215758015"></p>
+<p>从该系统架构中，可以看出： 数据库从之前的单节点变为多节点提供服务 主节点数据，同步到从节点数据 应用程序需要连接到2个数据库节点，并且在程序内部实现判断读写操作 </p>
+<p>这种架构存在2个问题： 应用程序需要连接到多个节点，对应用程序而言开发变得复杂 这个问题，可以通过中间件解决</p>
+<p><strong>主从之间的同步，是异步完成</strong>，也就意味着这是 <strong>弱一致性</strong> </p>
+<p>可能会导致，数据写入主库后，应用程序读取从库获取不到数据，或者可能会丢失数据，对于数据安全性 要求比较高的应用是不合适的 该问题可以通过PXC集群解决</p>
+<h2 id="考虑负载均衡的架构"><a href="#考虑负载均衡的架构" class="headerlink" title="考虑负载均衡的架构"></a>考虑负载均衡的架构</h2><p>在应用程序和中间件之间增加proxy代理，由代理来完成负载均衡的功 能，应用程序只需要对接到proxy即可。</p>
+<p><img src="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/%5C%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%5C2.png" alt="image"></p>
+<h2 id="PXC集群架构"><a href="#PXC集群架构" class="headerlink" title="PXC集群架构"></a>PXC集群架构</h2><p>在前面的架构中，都是基于MySQL主从的架构，那么在主从架构中，<strong>弱一致性问题依然没有解决</strong>，如果在需要<strong>强一 致性的需求</strong>中，显然这种架构是不能应对的，比如：交易数据。 <strong>PXC提供了读写强一致性的功能</strong>，可以<strong>保证数据在任何一个节点写入的同时可以同步到其它节点，也就意味着可以存 其它的任何节点进行读取操作</strong>，无延迟。 架构如下：</p>
+<p><img src="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/%5C%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%5C%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200917221211.png"></p>
+<h2 id="混合架构"><a href="#混合架构" class="headerlink" title="混合架构"></a>混合架构</h2><p>在前面的PXC架构中，虽然可以实现了事务的强一致性，但是它是通过牺牲了性能换来的一致性，如果在某些业务场 景下，如果没有强一致性的需求，那么使用PXC就不合适了。所以，在我们的系统架构中，<strong>需要将这两种方式综合起 来，这样才是一个较为完善的架构</strong>。</p>
+<p><img src="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/%5C%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%5C%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200917221407.png"></p>
+<h2 id="主从复制架构"><a href="#主从复制架构" class="headerlink" title="主从复制架构"></a>主从复制架构</h2><p><img src="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/%5C%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%88%86%E7%89%87%E5%92%8C%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%5C%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20200917221522.png"></p>
+<p>mysql主(称master)从(称slave)复制的原理： </p>
+<p>1、master将数据改变记录到二进制日志(binary log)中,也即是配置文件log-bin指定的文件(这些记录叫做二进制日 志事件，binary log events) </p>
+<p>2、slave将master的binary log events拷贝到它的中继日志(relay log) </p>
+<p>3、slave重做中继日志中的事件,将改变反映它自己的数据(数据重演)</p>
+<h2 id="主从复制架构存在的问题"><a href="#主从复制架构存在的问题" class="headerlink" title="主从复制架构存在的问题"></a>主从复制架构存在的问题</h2><p>从服务器未及时同步、主机宕机 – <strong>主从同步之间异步未完成，数据丢失等问题</strong>，属于 弱一致性 – <strong>解决方案：PXC集群，2PC（半同步的方式）</strong></p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a target="_blank" rel="noopener" href="https://github.com/xinlelee/E-book/blob/master/MySQL%E9%9B%86%E7%BE%A4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E3%80%81PXC%E9%9B%86%E7%BE%A4%E3%80%81MyCat%E3%80%81HAProxy.pdf">https://github.com/xinlelee/E-book/blob/master/MySQL%E9%9B%86%E7%BE%A4%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E3%80%81PXC%E9%9B%86%E7%BE%A4%E3%80%81MyCat%E3%80%81HAProxy.pdf</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/github_photo.jpg">
+      <meta itemprop="name" content="xinle">
+      <meta itemprop="description" content="热爱生活，热爱技术">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinle's BLOG">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">分库分表技术演进&最佳实践</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-09-17 21:21:41 / Modified: 21:42:14" itemprop="dateCreated datePublished" datetime="2020-09-17T21:21:41+08:00">2020-09-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">分布式关系型数据库</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/" itemprop="url" rel="index"><span itemprop="name">分库分表</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>789</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="分库分表的基本原理"><a href="#分库分表的基本原理" class="headerlink" title="分库分表的基本原理"></a>分库分表的基本原理</h2><p><strong>分库分表的两种方式：垂直切分 和 水平切分</strong></p>
+<p>垂直切分： 垂直分表 和 垂直分库<br>水平切分： 水平分表 和 水平分库</p>
+<p><strong>垂直分表</strong>： 操作数据库中的某张表，把这张表一部分的字段存到一张新表中，再把这张表的另一部分字段存到另外一张表中<br><strong>垂直分库</strong>： 数据库按照业务划分，不同的业务使用不同的数据库</p>
+<p><strong>水平分表</strong>： 根据key将数据存放到不同的表（一张表类型 对应了 多个表（表A 表B…））<br><strong>水平分库</strong>： 根据key将数据存放到不同的数据库（一张表类型 对应了 多个数据库）</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/17/%E5%90%8E%E7%AB%AF-%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93-%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/09/14/%E5%90%8E%E7%AB%AF-Java%E8%99%9A%E6%8B%9F%E6%9C%BA-ClassLoader%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -967,192 +1176,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/08/25/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95-KMP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/github_photo.jpg">
-      <meta itemprop="name" content="xinle">
-      <meta itemprop="description" content="热爱生活，热爱技术">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xinle's BLOG">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/25/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95-KMP/" class="post-title-link" itemprop="url">字符串匹配算法-KMP</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-08-25 23:23:29 / Modified: 23:28:04" itemprop="dateCreated datePublished" datetime="2020-08-25T23:23:29+08:00">2020-08-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8C%B9%E9%85%8D%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">字符串匹配算法</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * * 第一步，求最大公共前后缀的长度</span></span><br><span class="line"><span class="comment"> * * 根据原始字符串新建一个等长的辅助数组 prefix，存储从第 0 位 开始 到 第 i 位的 parten 的最大公共前后缀 的长度</span></span><br><span class="line"><span class="comment"> * * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * * 0 --  AB</span></span><br><span class="line"><span class="comment"> * * 0 --  ABC</span></span><br><span class="line"><span class="comment"> * * 0 --  ABCD</span></span><br><span class="line"><span class="comment"> * * 1 --  ABCDA</span></span><br><span class="line"><span class="comment"> * * 2 -- ABCDAB</span></span><br><span class="line"><span class="comment"> * * 3 -- ABCDABC</span></span><br><span class="line"><span class="comment"> * * 1 -- ABCDABCA</span></span><br><span class="line"><span class="comment"> * * 最终 prefix数组为 [0, 0, 0, 0, 1, 2, 3, 1]</span></span><br><span class="line"><span class="comment"> * * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * * 第二步：开始匹配</span></span><br><span class="line"><span class="comment"> * * 当text[i] == parten[j]相等时，i++，j++,两个指针都右移</span></span><br><span class="line"><span class="comment"> * * 不相等时；j = prefix[j]; 若j==-1，说明已经到头，i++,j++</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> text</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> parten</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">kmpSearch</span><span class="params">(<span class="keyword">char</span>[] text, <span class="keyword">char</span>[] parten)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> partenLength = parten.length;</span><br><span class="line">    <span class="keyword">int</span> textLength = text.length;</span><br><span class="line">    <span class="keyword">int</span>[] prefix = <span class="keyword">new</span> <span class="keyword">int</span>[partenLength];</span><br><span class="line">    <span class="comment">//第一步：填充prefixs数组</span></span><br><span class="line">    prefixTable(parten, prefix);</span><br><span class="line">    <span class="comment">//第二步：移动prefixs数组</span></span><br><span class="line">    move_prefix_table(prefix);</span><br><span class="line">    <span class="comment">//双指针 ； i 指向 text的下标 -- j指向 parten的下标</span></span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; textLength) &#123;</span><br><span class="line">        <span class="comment">// 当模式串的前partenLength - 1 都匹配，且 text当前位 等于 模式串的最后一位时，匹配成功</span></span><br><span class="line">        <span class="keyword">if</span> (j == partenLength - <span class="number">1</span> &amp;&amp; text[i] == parten[j]) &#123;</span><br><span class="line">            flag = <span class="keyword">true</span>;</span><br><span class="line">            result = i - partenLength + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 当text[i] == parten[j]相等时，i++，j++,两个指针都右移</span></span><br><span class="line">        <span class="keyword">if</span> (text[i] == parten[j]) &#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            j = prefix[j];</span><br><span class="line">            <span class="comment">//已经到头了，也都不相等, i++</span></span><br><span class="line">            <span class="keyword">if</span> (j == -<span class="number">1</span>) &#123;</span><br><span class="line">                i++;</span><br><span class="line">                j++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 整体往右移动prefix数组，在第0位补为 -1；</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> prefix</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">move_prefix_table</span><span class="params">(<span class="keyword">int</span>[] prefix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = prefix.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">        prefix[i] = prefix[i - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    prefix[<span class="number">0</span>] = -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用双指针 j 和 i,初始化 j = 0 , i =1;</span></span><br><span class="line"><span class="comment"> * 遍历 i 到最后一位，i指明的是 当前处理的是 parten 的 第 i 位，且需要求出当前 公共前后缀数组的 第 i 位的值；</span></span><br><span class="line"><span class="comment"> * prefix[i]表示的意思是: 从第 0 位 开始 到 第 i 位的 parten 的最大公共前后缀 的长度</span></span><br><span class="line"><span class="comment"> * 初始默认 prefix[0] = 0;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> parten</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prefixTable</span><span class="params">(<span class="keyword">char</span>[] parten, <span class="keyword">int</span>[] prefix)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> length = parten.length;</span><br><span class="line">    prefix[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; length) &#123;</span><br><span class="line">        <span class="comment">// 当 parten[i] == parten[j] 时，则 prefix[i] = j + 1;</span></span><br><span class="line">        <span class="keyword">if</span> (parten[i] == parten[j]) &#123;</span><br><span class="line">            prefix[i] = j + <span class="number">1</span>;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//如果 j == 0 ,则表明 已经到达头部节点 且 与 i 位置的数不相等，则可以直接将 prefix[i] 置为 0;</span></span><br><span class="line">            <span class="keyword">if</span> (j == <span class="number">0</span>) &#123;</span><br><span class="line">                prefix[i] = <span class="number">0</span>;</span><br><span class="line">                i++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                j = prefix[j - <span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://xinlecloud.top/2020/08/24/LeetCode-459-%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/github_photo.jpg">
-      <meta itemprop="name" content="xinle">
-      <meta itemprop="description" content="热爱生活，热爱技术">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xinle's BLOG">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/24/LeetCode-459-%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-title-link" itemprop="url">LeetCode-459-重复的子字符串</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-24 23:34:21" itemprop="dateCreated datePublished" datetime="2020-08-24T23:34:21+08:00">2020-08-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-26 23:41:36" itemprop="dateModified" datetime="2020-08-26T23:41:36+08:00">2020-08-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/LeetCode/" itemprop="url" rel="index"><span itemprop="name">LeetCode</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/LeetCode/KMP%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/" itemprop="url" rel="index"><span itemprop="name">KMP模式匹配</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.2k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="459-重复的子字符串"><a href="#459-重复的子字符串" class="headerlink" title="459. 重复的子字符串"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/repeated-substring-pattern/">459. 重复的子字符串</a></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 当 s 没有循环节时：</span></span><br><span class="line"><span class="comment">     * 如果 s 中没有循环节，那么 ss 中必然有且只有两个 s，此时从 ss[1] 处开始寻找 s ，必然只能找到第二个，所以此时返回值为 s.size()。</span></span><br><span class="line"><span class="comment">     * ----------------</span></span><br><span class="line"><span class="comment">     * 当 s 有循环节时：</span></span><br><span class="line"><span class="comment">     * 当 s 中有循环节时，设循环节为 r，其长度为 l，那么 ss 中必然可以找出 s.size()/l + 1 个 s 。</span></span><br><span class="line"><span class="comment">     * 因为去掉了第一个 S 的第一个字符 (代码中，(s+s).find(s, 1)， 是从 ss[1] 处开始 find )</span></span><br><span class="line"><span class="comment">     * 所以此时必回找到第二个 s 的起点。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> s</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">repeatedSubstringPattern</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        String substring = (s + s).substring(<span class="number">1</span>, (s + s).length());</span><br><span class="line">        <span class="keyword">return</span> substring.indexOf(s) != (s.length() - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 模拟</span></span><br><span class="line"><span class="comment">     * 如果匹配，则至少循环两次，所以模板子串的最长长度为 length / 2;</span></span><br><span class="line"><span class="comment">     * 从 length / 2 遍历到 1；如果不能被 length 整除，则直接continue，否则遍历N的次数，stringbuilder append 去判断是否相等</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> s</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">repeatedSubstringPattern2</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> length = s.length();</span><br><span class="line">        <span class="keyword">int</span> count = length / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = count; i &gt;= <span class="number">1</span>; i--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (length % i == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (deal(s, i)) &#123;</span><br><span class="line">                    flag = <span class="keyword">true</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">deal</span><span class="params">(String s, <span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">int</span> count = s.length() / length;</span><br><span class="line">        String temp = s.substring(<span class="number">0</span>, length);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">            sb.append(temp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> temp.toString().equals(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/24/LeetCode-459-%E9%87%8D%E5%A4%8D%E7%9A%84%E5%AD%90%E5%AD%97%E7%AC%A6%E4%B8%B2/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1224,20 +1247,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1297,12 +1320,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="Symbols count total">31k</span>
+    <span title="Symbols count total">32k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="Reading time total">28 mins.</span>
+    <span title="Reading time total">30 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
