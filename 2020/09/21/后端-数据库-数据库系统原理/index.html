@@ -24,7 +24,7 @@
 
   <meta name="description" content="一、事务概念事务指的是满足 ACID 特性的一组操作，可以通过 Commit 提交一个事务，也可以使用 Rollback 进行回滚。     ACID1. 原子性（Atomicity）事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚。 回滚可以用回滚日志（Undo Log）来实现，回滚日志记录着事务所执行的修改操作，在回滚时反向执行这些修改操作即可。 2. 一致性（C">
 <meta property="og:type" content="article">
-<meta property="og:title" content="后端-数据库-数据库系统原理">
+<meta property="og:title" content="数据库系统原理">
 <meta property="og:url" content="http://xinlecloud.top/2020/09/21/%E5%90%8E%E7%AB%AF-%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="xinle&#39;s BLOG">
 <meta property="og:description" content="一、事务概念事务指的是满足 ACID 特性的一组操作，可以通过 Commit 提交一个事务，也可以使用 Rollback 进行回滚。     ACID1. 原子性（Atomicity）事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚。 回滚可以用回滚日志（Undo Log）来实现，回滚日志记录着事务所执行的修改操作，在回滚时反向执行这些修改操作即可。 2. 一致性（C">
@@ -48,7 +48,7 @@
 <meta property="og:image" content="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/5bb1b38a-527e-4802-a385-267dadbd30ba.png">
 <meta property="og:image" content="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/14389ea4-8d96-4e96-9f76-564ca3324c1e.png">
 <meta property="article:published_time" content="2020-09-21T13:22:49.000Z">
-<meta property="article:modified_time" content="2020-09-21T13:37:06.011Z">
+<meta property="article:modified_time" content="2020-09-21T13:42:01.043Z">
 <meta property="article:author" content="xinle">
 <meta property="article:tag" content="数据库系统基本原理">
 <meta name="twitter:card" content="summary">
@@ -67,7 +67,7 @@
   };
 </script>
 
-  <title>后端-数据库-数据库系统原理 | xinle's BLOG</title>
+  <title>数据库系统原理 | xinle's BLOG</title>
   
 
 
@@ -255,7 +255,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          后端-数据库-数据库系统原理
+          数据库系统原理
         </h1>
 
         <div class="post-meta">
@@ -266,7 +266,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-09-21 21:22:49 / Modified: 21:37:06" itemprop="dateCreated datePublished" datetime="2020-09-21T21:22:49+08:00">2020-09-21</time>
+              <time title="Created: 2020-09-21 21:22:49 / Modified: 21:42:01" itemprop="dateCreated datePublished" datetime="2020-09-21T21:22:49+08:00">2020-09-21</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -327,6 +327,8 @@
 <h3 id="3-隔离性（Isolation）"><a href="#3-隔离性（Isolation）" class="headerlink" title="3. 隔离性（Isolation）"></a>3. 隔离性（Isolation）</h3><p>一个事务所做的修改在最终提交以前，对其它事务是不可见的。</p>
 <h3 id="4-持久性（Durability）"><a href="#4-持久性（Durability）" class="headerlink" title="4. 持久性（Durability）"></a>4. 持久性（Durability）</h3><p>一旦事务提交，则其所做的修改将会永远保存到数据库中。即使系统发生崩溃，事务执行的结果也不能丢失。</p>
 <p>系统发生奔溃可以用重做日志（Redo Log）进行恢复，从而实现持久性。与回滚日志记录数据的逻辑修改不同，重做日志记录的是数据页的物理修改。</p>
+<a id="more"></a>
+
 <hr>
 <p>事务的 ACID 特性概念简单，但不是很好理解，主要是因为这几个特性不是一种平级关系：</p>
 <ul>
